@@ -23,7 +23,26 @@ abstract class DetectClapSoundFlutterPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  Future<bool?> getStatusPermission() {
+    throw UnimplementedError('getStatusPermission() has not been implemented.');
   }
+
+  Future<bool?> requestPermission() {
+    throw UnimplementedError('requestPermission() has not been implemented.');
+  }
+
+  Future<String?> startRecording({String? fileName, String? path}) {
+    throw UnimplementedError('startRecording() has not been implemented.');
+  }
+
+  Future<String?> stopRecording() {
+    throw UnimplementedError('startRecording() has not been implemented.');
+  }
+
+  Future<bool?> getStatusRecording() {
+    throw UnimplementedError('getStatusRecording() has not been implemented.');
+  }
+
+  Stream<int> onListenDetectSound() =>
+      throw UnimplementedError('onListenDetectSound not implemented on the current platform.');
 }

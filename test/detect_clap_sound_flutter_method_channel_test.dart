@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:detect_clap_sound_flutter/detect_clap_sound_flutter_method_channel.dart';
+import 'package:detect_clap_sound_flutter/src/detect_clap_sound_flutter_method_channel.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ void main() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await platform.getPlatformVersion(), '42');
+  test('getStatusPermission', () async {
+    expect(await platform.getStatusPermission(), true);
   });
 }

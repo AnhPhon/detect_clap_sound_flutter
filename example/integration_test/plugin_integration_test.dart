@@ -6,20 +6,18 @@
 // For more information about Flutter integration tests, please see
 // https://docs.flutter.dev/cookbook/testing/integration/introduction
 
-
+import 'package:detect_clap_sound_flutter/detect_clap_sound_flutter.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-
-import 'package:detect_clap_sound_flutter/detect_clap_sound_flutter.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('getPlatformVersion test', (WidgetTester tester) async {
+  testWidgets('getStatusPermission test', (WidgetTester tester) async {
     final DetectClapSoundFlutter plugin = DetectClapSoundFlutter();
-    final String? version = await plugin.getPlatformVersion();
+    final bool? status = await plugin.getStatusPermission();
     // The version string depends on the host platform running the test, so
     // just assert that some non-empty string is returned.
-    expect(version?.isNotEmpty, true);
+    expect(status, true);
   });
 }

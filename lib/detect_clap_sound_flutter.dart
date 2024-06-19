@@ -1,8 +1,7 @@
+library detect_clap_sound_flutter;
 
-import 'detect_clap_sound_flutter_platform_interface.dart';
-
-class DetectClapSoundFlutter {
-  Future<String?> getPlatformVersion() {
-    return DetectClapSoundFlutterPlatform.instance.getPlatformVersion();
-  }
-}
+export 'src/constant/channel_constants.dart';
+export 'src/constant/argument_constants.dart';
+export 'src/detect_clap_sound_flutter_method_channel.dart';
+export 'src/detect_clap_sound_flutter_platform_interface.dart';
+export 'src/detect_clap_sound_flutter.dart';
