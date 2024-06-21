@@ -1,6 +1,6 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'detect_clap_sound_flutter_method_channel.dart';
+import '../detect_clap_sound_flutter.dart';
 
 abstract class DetectClapSoundFlutterPlatform extends PlatformInterface {
   /// Constructs a DetectClapSoundFlutterPlatform.
@@ -23,15 +23,15 @@ abstract class DetectClapSoundFlutterPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<bool?> getStatusPermission() {
-    throw UnimplementedError('getStatusPermission() has not been implemented.');
+  Future<bool?> hasPermission() {
+    throw UnimplementedError('hasPermission() has not been implemented.');
   }
 
   Future<bool?> requestPermission() {
     throw UnimplementedError('requestPermission() has not been implemented.');
   }
 
-  Future<String?> startRecording({String? fileName, String? path}) {
+  void startRecording({String? fileName, String? path, DetectConfig? config}) {
     throw UnimplementedError('startRecording() has not been implemented.');
   }
 
@@ -39,10 +39,15 @@ abstract class DetectClapSoundFlutterPlatform extends PlatformInterface {
     throw UnimplementedError('startRecording() has not been implemented.');
   }
 
-  Future<bool?> getStatusRecording() {
-    throw UnimplementedError('getStatusRecording() has not been implemented.');
+  Future<bool?> isRecording() {
+    throw UnimplementedError('isRecording() has not been implemented.');
   }
 
-  Stream<int> onListenDetectSound() =>
-      throw UnimplementedError('onListenDetectSound not implemented on the current platform.');
+  Stream<int> onListenDetectSound() {
+    throw UnimplementedError('onListenDetectSound not implemented on the current platform.');
+  }
+
+  void dispose() {
+    throw UnimplementedError('dispose() has not been implemented.');
+  }
 }

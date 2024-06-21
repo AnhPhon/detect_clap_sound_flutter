@@ -15,7 +15,7 @@ void main() {
 
   testWidgets('getStatusPermission test', (WidgetTester tester) async {
     final DetectClapSoundFlutter plugin = DetectClapSoundFlutter();
-    final bool? status = await plugin.getStatusPermission();
+    final bool? status = await plugin.hasPermission();
     // The version string depends on the host platform running the test, so
     // just assert that some non-empty string is returned.
     expect(status, true);

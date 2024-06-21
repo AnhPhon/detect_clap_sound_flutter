@@ -4,19 +4,18 @@ import 'package:flutter/services.dart';
 
 /// An implementation of [DetectClapSoundFlutterPlatform] that uses method channels.
 class MethodChannelDetectClapSoundFlutter extends DetectClapSoundFlutterPlatform {
-  /// The method channel used to interact with the native platform.
   @visibleForTesting
   final MethodChannel detectClapSoundMethodChannel = const MethodChannel(ChannelConstants.METHOD_CHANNEL_NAME);
 
   final EventChannel detectClapSoundEventChannel = const EventChannel(ChannelConstants.DETECT_CLAP_EVENT_CHANNEL);
 
   @override
-  Future<bool?> getStatusPermission() async {
+  Future<bool?> hasPermission() async {
     return await detectClapSoundMethodChannel.invokeMethod<bool>(ChannelConstants.GRANTED_PERMISSION_METHOD);
   }
 
   @override
-  Future<bool?> getStatusRecording() async {
+  Future<bool?> isRecording() async {
     return await detectClapSoundMethodChannel.invokeMethod<bool>(ChannelConstants.STATUS_RECORDING_METHOD);
   }
 
@@ -26,10 +25,11 @@ class MethodChannelDetectClapSoundFlutter extends DetectClapSoundFlutterPlatform
   }
 
   @override
-  Future<String?> startRecording({String? fileName, String? path}) async {
-    return await detectClapSoundMethodChannel.invokeMethod(ChannelConstants.START_RECORDING_METHOD, {
+  void startRecording({String? fileName, String? path, DetectConfig? config}) {
+    detectClapSoundMethodChannel.invokeMethod(ChannelConstants.START_RECORDING_METHOD, {
       ArgumentConstants.FILE_NAME: fileName,
       ArgumentConstants.PATH_FILE: path,
+      ArgumentConstants.DETECT_CONFIG: config?.createMapConfig(),
     });
   }
 
@@ -41,5 +41,10 @@ class MethodChannelDetectClapSoundFlutter extends DetectClapSoundFlutterPlatform
   @override
   Stream<int> onListenDetectSound() {
     return detectClapSoundEventChannel.receiveBroadcastStream().map<int>((dynamic event) => event as int);
+  }
+
+  @override
+  void dispose() {
+    detectClapSoundMethodChannel.invokeMethod(ChannelConstants.DISPOSE_RECORDING_METHOD);
   }
 }

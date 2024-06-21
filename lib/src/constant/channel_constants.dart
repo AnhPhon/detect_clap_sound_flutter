@@ -14,4 +14,6 @@ mixin ChannelConstants {
   static const String START_RECORDING_METHOD = 'start_recording_method';
 
   static const String STOP_RECORDING_METHOD = 'stop_recording_method';
+
+  static const String DISPOSE_RECORDING_METHOD = 'dispose_recording_method';
 }

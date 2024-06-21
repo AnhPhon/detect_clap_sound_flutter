@@ -16,7 +16,6 @@ public class PermissionManager implements PluginRegistry.RequestPermissionsResul
 
     private Activity activity;
 
-
     @Override
     public boolean onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -32,14 +31,12 @@ public class PermissionManager implements PluginRegistry.RequestPermissionsResul
         return false;
     }
 
-
     public void setActivity(Activity value) {
         this.activity = value;
     }
 
-
     /** [hasPermission]
-     * To check and request Record permisison if not granted. */
+     * To check and request Record permission if not granted. */
     public void hasPermission(PermissionResultCallback resultCallback) {
         if (this.activity == null) {
             resultCallback.onResult(false);
@@ -51,9 +48,7 @@ public class PermissionManager implements PluginRegistry.RequestPermissionsResul
         } else {
             resultCallback.onResult(true);
         }
-
     }
-
 
     /** [isPermissionGranted]
      * To get status Record permission. */
@@ -61,6 +56,4 @@ public class PermissionManager implements PluginRegistry.RequestPermissionsResul
         int result = ActivityCompat.checkSelfPermission(vActivity, Manifest.permission.RECORD_AUDIO);
         return result == PackageManager.PERMISSION_GRANTED;
     }
-
-
 }

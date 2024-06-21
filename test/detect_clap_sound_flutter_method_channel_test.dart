@@ -22,6 +22,6 @@ void main() {
   });
 
   test('getStatusPermission', () async {
-    expect(await platform.getStatusPermission(), true);
+    expect(await platform.hasPermission(), true);
   });
 }

@@ -15,5 +15,7 @@ public class MethodConstants {
 
     public static final String STATUS_RECORDING_METHOD = "status_recording_method";
 
+    public static final String DISPOSE_RECORDING_METHOD = "dispose_recording_method";
+
     public static final int RECORD_AUDIO_REQUEST_CODE = 1001;
 }

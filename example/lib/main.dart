@@ -20,14 +20,17 @@ class _MyAppState extends State<MyApp> {
   /// Define [_detectClapSoundFlutterPlugin] to use plugin.
   final DetectClapSoundFlutter _detectClapSoundFlutterPlugin = DetectClapSoundFlutter();
 
-  /// Define [_isGrantedPermission] to get permission status.
-  bool _isGrantedPermission = false;
+  /// Define [_hasPermission] to get permission status.
+  bool _hasPermission = false;
 
   /// Define [_isRecording] to set status recording.
   bool _isRecording = false;
 
   /// Define [_clapSubscription] to set subscription and listening.
   StreamSubscription<int>? _clapSubscription;
+
+  /// Define [_clapTimes] to count clap times.
+  int _clapTimes = 0;
 
   @override
   void initState() {
@@ -41,6 +44,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     _clapSubscription?.cancel();
+    _detectClapSoundFlutterPlugin.dispose();
     super.dispose();
   }
 
@@ -49,26 +53,34 @@ class _MyAppState extends State<MyApp> {
     _clapSubscription = _detectClapSoundFlutterPlugin.onListenDetectSound().listen(
       (int times) {
         log('TechMind is listening detected sound $times');
+
+        _clapTimes = _clapTimes + times;
+
+        setState(() {});
       },
     );
   }
 
   /// [_getStatusRecordPermission] to get status record permission.
   Future<void> _getStatusRecordPermission() async {
-    final status = await _detectClapSoundFlutterPlugin.getStatusPermission();
+    _hasPermission = await _detectClapSoundFlutterPlugin.hasPermission() ?? false;
 
-    _isGrantedPermission = status ?? false;
+    _isRecording = await _detectClapSoundFlutterPlugin.isRecording() ?? false;
+
     setState(() {});
   }
 
   /// [_requestPermissions] to request record permissions.
   Future<void> _requestPermissions() async {
-    await _detectClapSoundFlutterPlugin.requestPermission();
+    final status = await _detectClapSoundFlutterPlugin.requestPermission();
+
+    _hasPermission = status ?? false;
+    setState(() {});
   }
 
   /// [_startRecording] to stat recording.
-  Future<void> _startRecording() async {
-    await _detectClapSoundFlutterPlugin.startRecording();
+  void _startRecording() {
+    _detectClapSoundFlutterPlugin.startRecording();
 
     _isRecording = true;
     setState(() {});
@@ -87,9 +99,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: _checkEvenTimes() ? Colors.white : Colors.black,
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          backgroundColor: Colors.blue,
+          centerTitle: true,
+          title: const Text(
+            'Detect Clap Sound',
+            style: TextStyle(
+              fontSize: 30,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         body: SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -98,27 +121,23 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width * .3),
                 child: Text(
-                  'Record permission is granted: $_isGrantedPermission',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
+                  'Times: $_clapTimes',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: _checkEvenTimes() ? Colors.black : Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               ExampleButton(
+                colorBG: !_hasPermission ? Colors.red : Colors.blue,
                 onTap: () {
                   _requestPermissions();
                 },
-                label: 'Check status permission',
-              ),
-              ExampleButton(
-                onTap: () {
-                  _requestPermissions();
-                },
-                label: 'Request permission',
+                label: 'Record permission is granted: $_hasPermission',
               ),
               ExampleButton(
                 colorBG: _isRecording ? Colors.red : Colors.blue,
@@ -129,12 +148,18 @@ class _MyAppState extends State<MyApp> {
                     _startRecording();
                   }
                 },
-                label: 'Start recording',
+                label: _isRecording ? 'Stop recording' : 'Start recording',
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  /// [_checkEvenTimes] to check times even or not.
+  /// If even then show turn on light or turn off light.
+  bool _checkEvenTimes() {
+    return _clapTimes % 2 == 0;
   }
 }
