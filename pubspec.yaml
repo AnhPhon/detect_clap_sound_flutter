@@ -1,5 +1,5 @@
 name: detect_clap_sound_flutter
-description: "A new Flutter plugin project."
+description: "A library for detecting types of sounds during audio recording (e.g., clapping, whistling, etc.)"
 version: 1.1.1
 homepage: https://github.com/AnhPhon
 repository: https://github.com/AnhPhon/detect_clap_sound_flutter/
